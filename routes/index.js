@@ -1,6 +1,6 @@
 /* GET home page. */
 var _fs = require('fs');
-var _root_dir = 'G:/project/iRocket/commentbox/public/root';
+var _root_dir = process.cwd()+'/public/root';
 var _path = require('path');
 
 exports.index = function(req, res){
@@ -8,7 +8,7 @@ exports.index = function(req, res){
 };
 
 exports.list = function(req, res){
-    res.render('index', { title: 'Express' });
+    res.render('index', { title: '家庭云' });
 };
 
 exports.download = function(req, res){
@@ -19,6 +19,21 @@ exports.download = function(req, res){
     console.log(_path.basename(realpath));
     var filename = _path.basename(realpath);
     res.download(realpath,filename);
+};
+
+exports.view = function(req, res){
+    //res.render('index', { title: 'Express' });
+    var path = req.url.substr("/view/root".length);
+    var file_type = _path.extname(path);
+    if(file_type==".mp4"){
+        var cloud_path = "/download/root"+ path;
+        res.render('video', { title: '家庭云' ,cloud_path:cloud_path});
+    }else{
+        res.render('error', {
+            message: "not support file type:" + file_type,
+            error: {}
+        });
+    }
 };
 
 exports.data = function(req,res){
@@ -39,7 +54,14 @@ exports.data = function(req,res){
                 if(_fs.statSync(path + '/' + item).isDirectory()){
                     fileList.push({name:item,path:item_path,type:'dir',href:"/list/root"+item_href,description:'目录'});
                 }else{
-                    fileList.push({name:item,path:item_path,type:'file',href:"/download/root"+item_href,description:'文件'});
+                    console.log(item);
+                    var file_type = _path.extname(item);
+                    console.log(file_type);
+                    if(file_type==".mp4"){
+                        fileList.push({name:item,path:item_path,type:'file',href:"/view/root"+item_href,description:'文件'});
+                    }else{
+                        fileList.push({name:item,path:item_path,type:'file',href:"/download/root"+item_href,description:'文件'});
+                    }
                 }
             });
         }catch(e){

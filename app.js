@@ -32,6 +32,7 @@ app.get('/list/root/*', routes.list);
 app.get('/data/root', routes.data);
 app.get('/data/root/*', routes.data);
 app.get('/download/root/*', routes.download);
+app.get('/view/root/*', routes.view);
 app.get('/users', users.list);
 
 app.get('/comments', comment.list);

@@ -4,7 +4,6 @@ var marked = require('marked');
 var $ = require('jquery');
 var ListGroup = require('react-bootstrap/lib/ListGroup');
 var ListGroupItem = require('react-bootstrap/lib/ListGroupItem');
-
 /*
 var Comment = React.createClass({
     rawMarkup: function() {
@@ -64,8 +63,9 @@ var CommentForm = React.createClass({
     }
 });
 */
+
 const CustomComponent = React.createClass({
-    handleSubmit: function(e) {
+    handleSubmit: function(e){
         e.preventDefault();
         var header = this.refs.header.value.trim();
         var text = this.refs.text.value.trim();
@@ -147,6 +147,12 @@ var CommentBox = React.createClass({
         this.loadCommentsFromServer();
     },
     render: function() {
+        var options={
+            basUrl:'http://127.0.0.1',
+            param:{
+                fid:0
+            }
+        }
         return (
             <CustomComponentList data={this.state.data} />
             );

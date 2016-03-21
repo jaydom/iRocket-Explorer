@@ -19698,8 +19698,7 @@
 	var marked = __webpack_require__(161);
 	var $ = __webpack_require__(162);
 	var ListGroup = __webpack_require__(163);
-	var ListGroupItem = __webpack_require__(191);
-
+	var ListGroupItem = __webpack_require__(171);
 	/*
 	var Comment = React.createClass({
 	    rawMarkup: function() {
@@ -19759,8 +19758,9 @@
 	    }
 	});
 	*/
+
 	const CustomComponent = React.createClass({displayName: "CustomComponent",
-	    handleSubmit: function(e) {
+	    handleSubmit: function(e){
 	        e.preventDefault();
 	        var header = this.refs.header.value.trim();
 	        var text = this.refs.text.value.trim();
@@ -19842,6 +19842,12 @@
 	        this.loadCommentsFromServer();
 	    },
 	    render: function() {
+	        var options={
+	            basUrl:'http://127.0.0.1',
+	            param:{
+	                fid:0
+	            }
+	        }
 	        return (
 	            React.createElement(CustomComponentList, {data: this.state.data})
 	            );
@@ -30998,11 +31004,11 @@
 
 	var _inherits = __webpack_require__(164)['default'];
 
-	var _classCallCheck = __webpack_require__(179)['default'];
+	var _classCallCheck = __webpack_require__(167)['default'];
 
-	var _extends = __webpack_require__(180)['default'];
+	var _extends = __webpack_require__(168)['default'];
 
-	var _interopRequireDefault = __webpack_require__(190)['default'];
+	var _interopRequireDefault = __webpack_require__(170)['default'];
 
 	exports.__esModule = true;
 
@@ -31010,15 +31016,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ListGroupItem = __webpack_require__(191);
+	var _ListGroupItem = __webpack_require__(171);
 
 	var _ListGroupItem2 = _interopRequireDefault(_ListGroupItem);
 
-	var _classnames = __webpack_require__(200);
+	var _classnames = __webpack_require__(177);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _utilsValidComponentChildren = __webpack_require__(201);
+	var _utilsValidComponentChildren = __webpack_require__(178);
 
 	var _utilsValidComponentChildren2 = _interopRequireDefault(_utilsValidComponentChildren);
 
@@ -31130,7 +31136,7 @@
 
 	var _Object$create = __webpack_require__(165)["default"];
 
-	var _Object$setPrototypeOf = __webpack_require__(168)["default"];
+	var _Object$setPrototypeOf = __webpack_require__(166)["default"];
 
 	exports["default"] = function (subClass, superClass) {
 	  if (typeof superClass !== "function" && superClass !== null) {
@@ -31154,208 +31160,16 @@
 /* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(166), __esModule: true };
+	module.exports = { "default": __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"core-js/library/fn/object/create\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())), __esModule: true };
 
 /***/ },
 /* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(167);
-	module.exports = function create(P, D){
-	  return $.create(P, D);
-	};
+	module.exports = { "default": __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"core-js/library/fn/object/set-prototype-of\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())), __esModule: true };
 
 /***/ },
 /* 167 */
-/***/ function(module, exports) {
-
-	var $Object = Object;
-	module.exports = {
-	  create:     $Object.create,
-	  getProto:   $Object.getPrototypeOf,
-	  isEnum:     {}.propertyIsEnumerable,
-	  getDesc:    $Object.getOwnPropertyDescriptor,
-	  setDesc:    $Object.defineProperty,
-	  setDescs:   $Object.defineProperties,
-	  getKeys:    $Object.keys,
-	  getNames:   $Object.getOwnPropertyNames,
-	  getSymbols: $Object.getOwnPropertySymbols,
-	  each:       [].forEach
-	};
-
-/***/ },
-/* 168 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(169), __esModule: true };
-
-/***/ },
-/* 169 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(170);
-	module.exports = __webpack_require__(173).Object.setPrototypeOf;
-
-/***/ },
-/* 170 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// 19.1.3.19 Object.setPrototypeOf(O, proto)
-	var $export = __webpack_require__(171);
-	$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(176).set});
-
-/***/ },
-/* 171 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var global    = __webpack_require__(172)
-	  , core      = __webpack_require__(173)
-	  , ctx       = __webpack_require__(174)
-	  , PROTOTYPE = 'prototype';
-
-	var $export = function(type, name, source){
-	  var IS_FORCED = type & $export.F
-	    , IS_GLOBAL = type & $export.G
-	    , IS_STATIC = type & $export.S
-	    , IS_PROTO  = type & $export.P
-	    , IS_BIND   = type & $export.B
-	    , IS_WRAP   = type & $export.W
-	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
-	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
-	    , key, own, out;
-	  if(IS_GLOBAL)source = name;
-	  for(key in source){
-	    // contains in native
-	    own = !IS_FORCED && target && key in target;
-	    if(own && key in exports)continue;
-	    // export native or passed
-	    out = own ? target[key] : source[key];
-	    // prevent global pollution for namespaces
-	    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
-	    // bind timers to global for call from export context
-	    : IS_BIND && own ? ctx(out, global)
-	    // wrap global constructors for prevent change them in library
-	    : IS_WRAP && target[key] == out ? (function(C){
-	      var F = function(param){
-	        return this instanceof C ? new C(param) : C(param);
-	      };
-	      F[PROTOTYPE] = C[PROTOTYPE];
-	      return F;
-	    // make static versions for prototype methods
-	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-	    if(IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
-	  }
-	};
-	// type bitmap
-	$export.F = 1;  // forced
-	$export.G = 2;  // global
-	$export.S = 4;  // static
-	$export.P = 8;  // proto
-	$export.B = 16; // bind
-	$export.W = 32; // wrap
-	module.exports = $export;
-
-/***/ },
-/* 172 */
-/***/ function(module, exports) {
-
-	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-	var global = module.exports = typeof window != 'undefined' && window.Math == Math
-	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
-	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-
-/***/ },
-/* 173 */
-/***/ function(module, exports) {
-
-	var core = module.exports = {version: '1.2.6'};
-	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-
-/***/ },
-/* 174 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// optional / simple context binding
-	var aFunction = __webpack_require__(175);
-	module.exports = function(fn, that, length){
-	  aFunction(fn);
-	  if(that === undefined)return fn;
-	  switch(length){
-	    case 1: return function(a){
-	      return fn.call(that, a);
-	    };
-	    case 2: return function(a, b){
-	      return fn.call(that, a, b);
-	    };
-	    case 3: return function(a, b, c){
-	      return fn.call(that, a, b, c);
-	    };
-	  }
-	  return function(/* ...args */){
-	    return fn.apply(that, arguments);
-	  };
-	};
-
-/***/ },
-/* 175 */
-/***/ function(module, exports) {
-
-	module.exports = function(it){
-	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
-	  return it;
-	};
-
-/***/ },
-/* 176 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// Works with __proto__ only. Old v8 can't work with null proto objects.
-	/* eslint-disable no-proto */
-	var getDesc  = __webpack_require__(167).getDesc
-	  , isObject = __webpack_require__(177)
-	  , anObject = __webpack_require__(178);
-	var check = function(O, proto){
-	  anObject(O);
-	  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
-	};
-	module.exports = {
-	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
-	    function(test, buggy, set){
-	      try {
-	        set = __webpack_require__(174)(Function.call, getDesc(Object.prototype, '__proto__').set, 2);
-	        set(test, []);
-	        buggy = !(test instanceof Array);
-	      } catch(e){ buggy = true; }
-	      return function setPrototypeOf(O, proto){
-	        check(O, proto);
-	        if(buggy)O.__proto__ = proto;
-	        else set(O, proto);
-	        return O;
-	      };
-	    }({}, false) : undefined),
-	  check: check
-	};
-
-/***/ },
-/* 177 */
-/***/ function(module, exports) {
-
-	module.exports = function(it){
-	  return typeof it === 'object' ? it !== null : typeof it === 'function';
-	};
-
-/***/ },
-/* 178 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var isObject = __webpack_require__(177);
-	module.exports = function(it){
-	  if(!isObject(it))throw TypeError(it + ' is not an object!');
-	  return it;
-	};
-
-/***/ },
-/* 179 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31369,12 +31183,12 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 180 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _Object$assign = __webpack_require__(181)["default"];
+	var _Object$assign = __webpack_require__(169)["default"];
 
 	exports["default"] = _Object$assign || function (target) {
 	  for (var i = 1; i < arguments.length; i++) {
@@ -31393,119 +31207,13 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 181 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(182), __esModule: true };
+	module.exports = { "default": __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"core-js/library/fn/object/assign\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())), __esModule: true };
 
 /***/ },
-/* 182 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(183);
-	module.exports = __webpack_require__(173).Object.assign;
-
-/***/ },
-/* 183 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// 19.1.3.1 Object.assign(target, source)
-	var $export = __webpack_require__(171);
-
-	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(184)});
-
-/***/ },
-/* 184 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// 19.1.2.1 Object.assign(target, source, ...)
-	var $        = __webpack_require__(167)
-	  , toObject = __webpack_require__(185)
-	  , IObject  = __webpack_require__(187);
-
-	// should work with symbols and should have deterministic property order (V8 bug)
-	module.exports = __webpack_require__(189)(function(){
-	  var a = Object.assign
-	    , A = {}
-	    , B = {}
-	    , S = Symbol()
-	    , K = 'abcdefghijklmnopqrst';
-	  A[S] = 7;
-	  K.split('').forEach(function(k){ B[k] = k; });
-	  return a({}, A)[S] != 7 || Object.keys(a({}, B)).join('') != K;
-	}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
-	  var T     = toObject(target)
-	    , $$    = arguments
-	    , $$len = $$.length
-	    , index = 1
-	    , getKeys    = $.getKeys
-	    , getSymbols = $.getSymbols
-	    , isEnum     = $.isEnum;
-	  while($$len > index){
-	    var S      = IObject($$[index++])
-	      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
-	      , length = keys.length
-	      , j      = 0
-	      , key;
-	    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
-	  }
-	  return T;
-	} : Object.assign;
-
-/***/ },
-/* 185 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// 7.1.13 ToObject(argument)
-	var defined = __webpack_require__(186);
-	module.exports = function(it){
-	  return Object(defined(it));
-	};
-
-/***/ },
-/* 186 */
-/***/ function(module, exports) {
-
-	// 7.2.1 RequireObjectCoercible(argument)
-	module.exports = function(it){
-	  if(it == undefined)throw TypeError("Can't call method on  " + it);
-	  return it;
-	};
-
-/***/ },
-/* 187 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// fallback for non-array-like ES3 and non-enumerable old V8 strings
-	var cof = __webpack_require__(188);
-	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
-	  return cof(it) == 'String' ? it.split('') : Object(it);
-	};
-
-/***/ },
-/* 188 */
-/***/ function(module, exports) {
-
-	var toString = {}.toString;
-
-	module.exports = function(it){
-	  return toString.call(it).slice(8, -1);
-	};
-
-/***/ },
-/* 189 */
-/***/ function(module, exports) {
-
-	module.exports = function(exec){
-	  try {
-	    return !!exec();
-	  } catch(e){
-	    return true;
-	  }
-	};
-
-/***/ },
-/* 190 */
+/* 170 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31519,18 +31227,18 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 191 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _inherits = __webpack_require__(164)['default'];
 
-	var _classCallCheck = __webpack_require__(179)['default'];
+	var _classCallCheck = __webpack_require__(167)['default'];
 
-	var _extends = __webpack_require__(180)['default'];
+	var _extends = __webpack_require__(168)['default'];
 
-	var _interopRequireDefault = __webpack_require__(190)['default'];
+	var _interopRequireDefault = __webpack_require__(170)['default'];
 
 	exports.__esModule = true;
 
@@ -31538,13 +31246,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _utilsBootstrapUtils = __webpack_require__(192);
+	var _utilsBootstrapUtils = __webpack_require__(172);
 
 	var _utilsBootstrapUtils2 = _interopRequireDefault(_utilsBootstrapUtils);
 
-	var _styleMaps = __webpack_require__(193);
+	var _styleMaps = __webpack_require__(173);
 
-	var _classnames = __webpack_require__(200);
+	var _classnames = __webpack_require__(177);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -31660,28 +31368,28 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 192 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var _extends = __webpack_require__(180)['default'];
+	var _extends = __webpack_require__(168)['default'];
 
-	var _interopRequireDefault = __webpack_require__(190)['default'];
+	var _interopRequireDefault = __webpack_require__(170)['default'];
 
 	exports.__esModule = true;
 
 	var _react = __webpack_require__(2);
 
-	var _styleMaps = __webpack_require__(193);
+	var _styleMaps = __webpack_require__(173);
 
 	var _styleMaps2 = _interopRequireDefault(_styleMaps);
 
-	var _invariant = __webpack_require__(198);
+	var _invariant = __webpack_require__(175);
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _warning = __webpack_require__(199);
+	var _warning = __webpack_require__(176);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -31842,16 +31550,16 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 193 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Object$assign = __webpack_require__(181)['default'];
+	var _Object$assign = __webpack_require__(169)['default'];
 
 	var _Object$create = __webpack_require__(165)['default'];
 
-	var _Object$keys = __webpack_require__(194)['default'];
+	var _Object$keys = __webpack_require__(174)['default'];
 
 	exports.__esModule = true;
 
@@ -31910,48 +31618,13 @@
 	exports['default'] = styleMaps;
 
 /***/ },
-/* 194 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(195), __esModule: true };
+	module.exports = { "default": __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"core-js/library/fn/object/keys\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())), __esModule: true };
 
 /***/ },
-/* 195 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(196);
-	module.exports = __webpack_require__(173).Object.keys;
-
-/***/ },
-/* 196 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// 19.1.2.14 Object.keys(O)
-	var toObject = __webpack_require__(185);
-
-	__webpack_require__(197)('keys', function($keys){
-	  return function keys(it){
-	    return $keys(toObject(it));
-	  };
-	});
-
-/***/ },
-/* 197 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// most Object methods by ES6 should accept primitives
-	var $export = __webpack_require__(171)
-	  , core    = __webpack_require__(173)
-	  , fails   = __webpack_require__(189);
-	module.exports = function(KEY, exec){
-	  var fn  = (core.Object || {})[KEY] || Object[KEY]
-	    , exp = {};
-	  exp[KEY] = exec(fn);
-	  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
-	};
-
-/***/ },
-/* 198 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -32009,7 +31682,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 199 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -32076,7 +31749,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 200 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32130,12 +31803,12 @@
 
 
 /***/ },
-/* 201 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _interopRequireDefault = __webpack_require__(190)['default'];
+	var _interopRequireDefault = __webpack_require__(170)['default'];
 
 	exports.__esModule = true;
 

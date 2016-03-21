@@ -8,35 +8,35 @@ a {
 }
 
 #commentbox {
-    margin: 0px;
-    padding: 0px;
-    width: 100%;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
 }
 
 
 #commentbox .list-group {
-    margin: 0px;
-    padding: 0px;
-    width: 100%;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
 }
 
 #commentbox .list-group .list-group-item {
-    padding: 50px;
-    height: 200px;
+  padding: 50px;
+  height: 200px;
 }
 
 #commentbox .list-group .list-group-item .list-group-item-heading{
-    font-size:400%;
+  font-size:400%;
 }
 
 #commentbox .list-group .list-group-item .list-group-item-text{
-    font-size:200%;
-    color: #727172;
+  font-size:200%;
+  color: #727172;
 }
 
 #commentbox .list-group .list-group-item .list-group-item-right{
-    font-size:200%;
-    float: right;
-    position: relative;
-    padding-top: 40px;
+  font-size:200%;
+  float: right;
+  position: relative;
+  padding-top: 40px;
 }
