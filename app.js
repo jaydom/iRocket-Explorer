@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes');
 var users = require('./routes/user');
 var comment = require('./routes/comment');
+var file = require('./routes/file');
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.get('/list/root/*', routes.list);
 app.get('/data/root', routes.data);
 app.get('/data/root/*', routes.data);
 app.get('/download/root/*', routes.download);
+app.post('/file/root/*', file.add);
 app.get('/view/root/*', routes.view);
 app.get('/users', users.list);
 

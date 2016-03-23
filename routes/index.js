@@ -8,7 +8,7 @@ exports.index = function(req, res){
 };
 
 exports.list = function(req, res){
-    res.render('index', { title: '家庭云' });
+    res.render('index', { title: '共享' });
 };
 
 exports.download = function(req, res){

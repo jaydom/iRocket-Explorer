@@ -1,7 +1,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var marked = require('marked');
-var $ = require('jquery');
+var $ =  jQuery = require('jquery');
+require('blueimp-file-upload');
 var ListGroup = require('react-bootstrap/lib/ListGroup');
 var ListGroupItem = require('react-bootstrap/lib/ListGroupItem');
 /*
@@ -63,7 +64,6 @@ var CommentForm = React.createClass({
     }
 });
 */
-
 const CustomComponent = React.createClass({
     handleSubmit: function(e){
         e.preventDefault();
@@ -101,6 +101,62 @@ const CustomComponentList = React.createClass({
             <ListGroup>
                 {commentNodes}
             </ListGroup>
+            );
+    }
+});
+
+const NavJustified = React.createClass({
+    handleClick: function() {
+        event.preventDefault();
+        this.refs.selectInput.click();
+    },
+    handleChange: function(event){
+        event.preventDefault();
+        var target = event.target;
+        var files = target.files;
+        console.log('handleChange:'+files);
+        $(this.refs.selectInput).fileupload({
+            url: '/file/root/',
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    console.log(file.name);
+                });
+            },
+            fail: function (e, data) {
+                console.log('fail:'+data);
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                console.log(progress);
+            }
+        }).prop('disabled', !$.support.fileInput)
+            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    },
+    propTypes: {
+        //onChange: React.PropTypes.func.isRequired,
+        //multiple: React.PropTypes.bool
+    },
+    render: function() {
+        var divStyle = {
+            'font-size':"400%"
+        };
+        return (
+            <div id="footer" className="container">
+                <nav className="navbar navbar-default navbar-fixed-bottom">
+                    <ul className="nav nav-pills nav-justified">
+                        <li role="presentation"><a href="#" ><span className="glyphicon glyphicon-plus" style={{'fontSize':"400%"}}></span></a></li>
+                        <li role="presentation">
+                            <a href="#" onClick={this.handleClick}><span className="glyphicon glyphicon-upload" style={{'fontSize':"400%"}}></span></a>
+                            <form encType="multipart/form-data" className="hidden">
+                                <input name="file" type="file" className="hidden" ref="selectInput" multiple="multiple" onChange={this.handleChange}/>
+                                <input type="button" value="Upload" className="hidden" ref="uploadInput"/>
+                            </form>
+                        </li>
+                        <li role="presentation"><a href="#"><span className="glyphicon glyphicon-search" style={{'fontSize':"400%"}}></span></a></li>
+                    </ul>
+                </nav>
+            </div>
             );
     }
 });
@@ -154,7 +210,10 @@ var CommentBox = React.createClass({
             }
         }
         return (
-            <CustomComponentList data={this.state.data} />
+            <div>
+                <CustomComponentList data={this.state.data} />
+                <NavJustified />
+            </div>
             );
     }
 });
