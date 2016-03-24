@@ -110,37 +110,6 @@ const UploadComponent = React.createClass({
         event.preventDefault();
         this.refs.selectInput.click();
     },
-    handleChange: function(event){
-        event.preventDefault();
-        var target = event.target;
-        var files = target.files;
-        console.log('handleChange:'+files);
-    },
-    handleSubmit: function (event) {
-        event.preventDefault();
-        var upload = ReactDOM.findDOMNode(this);
-        console.log(upload);
-        console.log('handleSubmit:'+event);
-        $(upload).fileupload({
-            url: '/file/root/',
-            //replaceFileInput:'false',
-            done: function (e, data) {
-                console.log("success");
-                console.log(data.result);
-                $.each(data.result.files, function (index, file) {
-                    console.log(file.name);
-                });
-            },
-            fail: function (e, data) {
-                console.log('fail:'+data);
-            },
-            progressall: function (e, data) {
-                var progress = parseInt(data.loaded / data.total * 100, 10);
-                console.log("progress:"+progress);
-            }
-        }).prop('disabled', !$.support.fileInput)
-            .parent().addClass($.support.fileInput ? undefined : 'disabled');
-    },
     componentDidMount: function() {
         var upload = ReactDOM.findDOMNode(this);
         console.log(upload);
@@ -169,7 +138,10 @@ const UploadComponent = React.createClass({
             'font-size':"400%"
         };
         return (
-            <input name="file" type="file" className="" multiple="true"/>
+                <form encType="multipart/form-data" className={this.props.class} ref="fileupload" >
+                    <input name="file" type="file" className={this.props.class} multiple="multiple"  ref="selectInput"/>
+                    <input type="submit" value="submit" className={this.props.class} ref="uploadInput"/>
+                </form>
             );
     }
 });
@@ -177,7 +149,7 @@ const UploadComponent = React.createClass({
 const NavJustified = React.createClass({
     handleClick: function(event) {
         event.preventDefault();
-        this.refs.selectInput.click();
+        this.refs.upload.handleClick(event);
     },
     propTypes: {
         //onChange: React.PropTypes.func.isRequired,
@@ -194,6 +166,7 @@ const NavJustified = React.createClass({
                         <li role="presentation"><a href="#" ><span className="glyphicon glyphicon-plus" style={{'fontSize':"400%"}}></span></a></li>
                         <li role="presentation">
                             <a href="#" onClick={this.handleClick}><span className="glyphicon glyphicon-upload" style={{'fontSize':"400%"}}></span></a>
+                            <UploadComponent ref="upload" class="hidden"/>
                         </li>
                         <li role="presentation"><a href="#"><span className="glyphicon glyphicon-search" style={{'fontSize':"400%"}}></span></a></li>
                     </ul>
