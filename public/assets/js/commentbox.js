@@ -169,10 +169,7 @@ const UploadComponent = React.createClass({
             'font-size':"400%"
         };
         return (
-                <form encType="multipart/form-data" className="" ref="fileupload" >
-                    <input name="file" type="file" className="" multiple="true"/>
-                    <input type="submit" value="submit" className="" ref="uploadInput"/>
-                </form>
+            <input name="file" type="file" className="" multiple="true"/>
             );
     }
 });
