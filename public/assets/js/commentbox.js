@@ -105,8 +105,8 @@ const CustomComponentList = React.createClass({
     }
 });
 
-const NavJustified = React.createClass({
-    handleClick: function() {
+const UploadComponent = React.createClass({
+    handleClick: function(event) {
         event.preventDefault();
         this.refs.selectInput.click();
     },
@@ -115,10 +115,18 @@ const NavJustified = React.createClass({
         var target = event.target;
         var files = target.files;
         console.log('handleChange:'+files);
-        $(this.refs.selectInput).fileupload({
+    },
+    handleSubmit: function (event) {
+        event.preventDefault();
+        var upload = ReactDOM.findDOMNode(this);
+        console.log(upload);
+        console.log('handleSubmit:'+event);
+        $(upload).fileupload({
             url: '/file/root/',
-            dataType: 'json',
+            //replaceFileInput:'false',
             done: function (e, data) {
+                console.log("success");
+                console.log(data.result);
                 $.each(data.result.files, function (index, file) {
                     console.log(file.name);
                 });
@@ -128,10 +136,51 @@ const NavJustified = React.createClass({
             },
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
-                console.log(progress);
+                console.log("progress:"+progress);
             }
         }).prop('disabled', !$.support.fileInput)
             .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    },
+    componentDidMount: function() {
+        var upload = ReactDOM.findDOMNode(this);
+        console.log(upload);
+        $(upload).fileupload({
+            url: '/file/root/',
+            //replaceFileInput:'false',
+            done: function (e, data) {
+                console.log("success");
+                console.log(data.result);
+                $.each(data.result.files, function (index, file) {
+                    console.log(file.name);
+                });
+            },
+            fail: function (e, data) {
+                console.log('fail:'+data);
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                console.log("progress:"+progress);
+            }
+        }).prop('disabled', !$.support.fileInput)
+            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    },
+    render: function() {
+        var divStyle = {
+            'font-size':"400%"
+        };
+        return (
+                <form encType="multipart/form-data" className="" ref="fileupload" >
+                    <input name="file" type="file" className="" multiple="true"/>
+                    <input type="submit" value="submit" className="" ref="uploadInput"/>
+                </form>
+            );
+    }
+});
+
+const NavJustified = React.createClass({
+    handleClick: function(event) {
+        event.preventDefault();
+        this.refs.selectInput.click();
     },
     propTypes: {
         //onChange: React.PropTypes.func.isRequired,
@@ -148,10 +197,6 @@ const NavJustified = React.createClass({
                         <li role="presentation"><a href="#" ><span className="glyphicon glyphicon-plus" style={{'fontSize':"400%"}}></span></a></li>
                         <li role="presentation">
                             <a href="#" onClick={this.handleClick}><span className="glyphicon glyphicon-upload" style={{'fontSize':"400%"}}></span></a>
-                            <form encType="multipart/form-data" className="hidden">
-                                <input name="file" type="file" className="hidden" ref="selectInput" multiple="multiple" onChange={this.handleChange}/>
-                                <input type="button" value="Upload" className="hidden" ref="uploadInput"/>
-                            </form>
                         </li>
                         <li role="presentation"><a href="#"><span className="glyphicon glyphicon-search" style={{'fontSize':"400%"}}></span></a></li>
                     </ul>

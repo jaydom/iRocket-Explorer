@@ -19800,8 +19800,8 @@
 	    }
 	});
 
-	const NavJustified = React.createClass({displayName: "NavJustified",
-	    handleClick: function() {
+	const UploadComponent = React.createClass({displayName: "UploadComponent",
+	    handleClick: function(event) {
 	        event.preventDefault();
 	        this.refs.selectInput.click();
 	    },
@@ -19810,10 +19810,18 @@
 	        var target = event.target;
 	        var files = target.files;
 	        console.log('handleChange:'+files);
-	        $(this.refs.selectInput).fileupload({
+	    },
+	    handleSubmit: function (event) {
+	        event.preventDefault();
+	        var upload = ReactDOM.findDOMNode(this);
+	        console.log(upload);
+	        console.log('handleSubmit:'+event);
+	        $(upload).fileupload({
 	            url: '/file/root/',
-	            dataType: 'json',
+	            //replaceFileInput:'false',
 	            done: function (e, data) {
+	                console.log("success");
+	                console.log(data.result);
 	                $.each(data.result.files, function (index, file) {
 	                    console.log(file.name);
 	                });
@@ -19823,10 +19831,79 @@
 	            },
 	            progressall: function (e, data) {
 	                var progress = parseInt(data.loaded / data.total * 100, 10);
-	                console.log(progress);
+	                console.log("progress:"+progress);
 	            }
 	        }).prop('disabled', !$.support.fileInput)
 	            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+	    },
+	    componentDidMount: function() {
+	        var upload = ReactDOM.findDOMNode(this);
+	        console.log(upload);
+	        $(upload).fileupload({
+	            url: '/file/root/',
+	            //replaceFileInput:'false',
+	            done: function (e, data) {
+	                console.log("success");
+	                console.log(data.result);
+	                $.each(data.result.files, function (index, file) {
+	                    console.log(file.name);
+	                });
+	            },
+	            fail: function (e, data) {
+	                console.log('fail:'+data);
+	            },
+	            progressall: function (e, data) {
+	                var progress = parseInt(data.loaded / data.total * 100, 10);
+	                console.log("progress:"+progress);
+	            }
+	        }).prop('disabled', !$.support.fileInput)
+	            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+	    },
+	    render: function() {
+	        var divStyle = {
+	            'font-size':"400%"
+	        };
+	        return (
+	                React.createElement("form", {encType: "multipart/form-data", className: "", ref: "fileupload"}, 
+	                    React.createElement("input", {name: "file", type: "file", className: "", multiple: "true"}), 
+	                    React.createElement("input", {type: "submit", value: "submit", className: "", ref: "uploadInput"})
+	                )
+	            );
+	    }
+	});
+
+	const NavJustified = React.createClass({displayName: "NavJustified",
+	    handleClick: function(event) {
+	        event.preventDefault();
+	        this.refs.selectInput.click();
+	    },
+	    handleChange: function(event){
+	        var target = event.target;
+	        var files = target.files;
+	        console.log('handleChange:'+files);
+	        this.refs.uploadInput.click();
+
+	    },
+	    handleSubmit: function(event) {
+	        event.preventDefault();
+	        console.log('handleSubmit:'+event);
+	        $(this.refs['myForm'].getDOMNode()).fileupload({
+	             url: '/file/root/',
+	             dataType: 'json',
+	             done: function (e, data) {
+	                 $.each(data.result.files, function (index, file) {
+	                 console.log(file.name);
+	             });
+	             },
+	             fail: function (e, data) {
+	                console.log('fail:'+data);
+	             },
+	             progressall: function (e, data) {
+	                 var progress = parseInt(data.loaded / data.total * 100, 10);
+	                 console.log(progress);
+	             }
+	         }).prop('disabled', !$.support.fileInput)
+	         .parent().addClass($.support.fileInput ? undefined : 'disabled');
 	    },
 	    propTypes: {
 	        //onChange: React.PropTypes.func.isRequired,
@@ -19838,19 +19915,7 @@
 	        };
 	        return (
 	            React.createElement("div", {id: "footer", className: "container"}, 
-	                React.createElement("nav", {className: "navbar navbar-default navbar-fixed-bottom"}, 
-	                    React.createElement("ul", {className: "nav nav-pills nav-justified"}, 
-	                        React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, React.createElement("span", {className: "glyphicon glyphicon-plus", style: {'fontSize':"400%"}}))), 
-	                        React.createElement("li", {role: "presentation"}, 
-	                            React.createElement("a", {href: "#", onClick: this.handleClick}, React.createElement("span", {className: "glyphicon glyphicon-upload", style: {'fontSize':"400%"}})), 
-	                            React.createElement("form", {encType: "multipart/form-data", className: "hidden"}, 
-	                                React.createElement("input", {name: "file", type: "file", className: "hidden", ref: "selectInput", multiple: "multiple", onChange: this.handleChange}), 
-	                                React.createElement("input", {type: "button", value: "Upload", className: "hidden", ref: "uploadInput"})
-	                            )
-	                        ), 
-	                        React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, React.createElement("span", {className: "glyphicon glyphicon-search", style: {'fontSize':"400%"}})))
-	                    )
-	                )
+	                React.createElement(UploadComponent, null)
 	            )
 	            );
 	    }

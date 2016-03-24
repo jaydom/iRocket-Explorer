@@ -40,7 +40,6 @@ exports.data = function(req,res){
     var str2 = req.url;
     var reg2 = /\?/;
     var res2 = str2.split(reg2);
-    console.log(res2);
     //获取目录
     var fileList = [];
     function walk(root_dir,cur_item){
@@ -48,7 +47,7 @@ exports.data = function(req,res){
             var path = root_dir+ cur_item;
             var dirList = _fs.readdirSync(path);
             dirList.forEach(function(item){
-                console.log(item);
+                //console.log(item);
                 var item_href = cur_item+'/'+item;
                 var item_path = path + '/' + item;
                 if(_fs.statSync(path + '/' + item).isDirectory()){
