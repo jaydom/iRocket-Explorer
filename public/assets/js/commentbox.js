@@ -108,6 +108,7 @@ const CustomComponentList = React.createClass({
 const UploadComponent = React.createClass({
     handleClick: function(event) {
         event.preventDefault();
+        console.log("handleClick");
         this.refs.selectInput.click();
     },
     componentDidMount: function() {
@@ -135,12 +136,17 @@ const UploadComponent = React.createClass({
     },
     render: function() {
         var divStyle = {
-            'font-size':"400%"
+            "position":"absolute",
+            "left":"0",
+            "top":"0",
+            "width":"100%",
+            "height":"100%",
+            "z-index":"999",
+            "opacity":"0"
         };
         return (
                 <form encType="multipart/form-data" className={this.props.class} ref="fileupload" >
-                    <input name="file" type="file" className={this.props.class} multiple="multiple"  ref="selectInput"/>
-                    <input type="submit" value="submit" className={this.props.class} ref="uploadInput"/>
+                    <input name="file" type="file" multiple="multiple"  ref="selectInput" style={divStyle}/>
                 </form>
             );
     }
@@ -149,6 +155,7 @@ const UploadComponent = React.createClass({
 const NavJustified = React.createClass({
     handleClick: function(event) {
         event.preventDefault();
+        console.log("test");
         this.refs.upload.handleClick(event);
     },
     propTypes: {
@@ -165,8 +172,11 @@ const NavJustified = React.createClass({
                     <ul className="nav nav-pills nav-justified">
                         <li role="presentation"><a href="#" ><span className="glyphicon glyphicon-plus" style={{'fontSize':"400%"}}></span></a></li>
                         <li role="presentation">
-                            <a href="#" onClick={this.handleClick}><span className="glyphicon glyphicon-upload" style={{'fontSize':"400%"}}></span></a>
-                            <UploadComponent ref="upload" class="hidden"/>
+                            <a>
+                                <span className="glyphicon glyphicon-upload" style={{'fontSize':"400%"}}>
+                                    <UploadComponent ref="upload"/>
+                                </span>
+                            </a>
                         </li>
                         <li role="presentation"><a href="#"><span className="glyphicon glyphicon-search" style={{'fontSize':"400%"}}></span></a></li>
                     </ul>
