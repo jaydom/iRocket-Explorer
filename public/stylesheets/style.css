@@ -43,3 +43,16 @@ a {
   position: relative;
   padding-top: 40px;
 }
+
+#commentbox .navbar-fixed-top .container{
+  padding: 0px 50px 0px 50px;
+  margin: 0px;
+  width: 100%;
+  text-align: center;
+}
+
+#commentbox .navbar-fixed-top .container{
+  padding: 0px 50px 0px 50px;
+  margin: 0px;
+  text-align: center;
+}

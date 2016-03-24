@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 var marked = require('marked');
 var $ =  jQuery = require('jquery');
 require('blueimp-file-upload');
+var Panel = require('react-bootstrap/lib/Panel');
 var ListGroup = require('react-bootstrap/lib/ListGroup');
 var ListGroupItem = require('react-bootstrap/lib/ListGroupItem');
 /*
@@ -106,11 +107,6 @@ const CustomComponentList = React.createClass({
 });
 
 const UploadComponent = React.createClass({
-    handleClick: function(event) {
-        event.preventDefault();
-        console.log("handleClick");
-        this.refs.selectInput.click();
-    },
     componentDidMount: function() {
         var upload = ReactDOM.findDOMNode(this);
         console.log(upload);
@@ -141,7 +137,7 @@ const UploadComponent = React.createClass({
             "top":"0",
             "width":"100%",
             "height":"100%",
-            "z-index":"999",
+            "zIndex":"999",
             "opacity":"0"
         };
         return (
@@ -151,13 +147,18 @@ const UploadComponent = React.createClass({
             );
     }
 });
-
-const NavJustified = React.createClass({
-    handleClick: function(event) {
-        event.preventDefault();
-        console.log("test");
-        this.refs.upload.handleClick(event);
-    },
+const NavHeader = React.createClass({
+        render: function() {
+            return (
+                <nav className="navbar navbar-default navbar-fixed-top">
+                    <div className="container">
+                        <h3>{this.props.name}</h3>
+                    </div>
+                </nav>
+            );
+    }
+});
+const NavFooter = React.createClass({
     propTypes: {
         //onChange: React.PropTypes.func.isRequired,
         //multiple: React.PropTypes.bool
@@ -236,8 +237,9 @@ var CommentBox = React.createClass({
         }
         return (
             <div>
+                <NavHeader name="文件管理器"/>
                 <CustomComponentList data={this.state.data} />
-                <NavJustified />
+                <NavFooter/>
             </div>
             );
     }
